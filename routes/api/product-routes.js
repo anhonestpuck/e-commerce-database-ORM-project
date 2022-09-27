@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
     const productData = await Product.findAll({
       include: [{model: Category},{model: Tag}]
     });
+    
     res.status(200).json(productData);
   } catch (err) {
     res.status(500).json(err);
@@ -23,7 +24,7 @@ router.get('/:id', async (req, res) => {
     const productData = await Product.findByPk(req.params.id,{
       include: [{model: Category}, {model: Tag}],
     });
-
+    res.status(200).json(productData)
     if (!productData) {
       res.status(404).json({message: 'no user with this id'})
     }
@@ -116,6 +117,7 @@ router.delete('/:id', async (req, res) => {
         id: req.params.id,
       },
     });
+    res.status(200).json(productData)
     if (!productData){
       res.status(404).json({message: 'no product with this id'})
       return;
