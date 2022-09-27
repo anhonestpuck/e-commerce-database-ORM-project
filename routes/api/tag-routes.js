@@ -63,16 +63,22 @@ router.post('/', async (req, res) => {
     // update a category by its `id` value
   });
 
-router.delete('/:id', async (req, res) => {
-  // delete on tag by its `id` value
-  try {
-    const tagData = await Tag.destroy({
-      where: req.params.id,
-    })
-
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+  router.delete('/:id', async (req, res) => {
+    try {
+      const tagData = await Tag.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
+      res.status(200).json(tagData)
+      if (!tagData){
+        res.status(404).json({message: 'no product with this id'})
+        return;
+      }
+    } catch (err){
+      res.status(500).json(err);
+    }
+    // delete one product by its `id` value
+  });
 
 module.exports = router;
